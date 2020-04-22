@@ -99,6 +99,8 @@ module.exports = function (md, options) {
       const tag = new RegExp(t)
       let matched = false
 
+      let leadingWhiteSpace = 0;
+      let first = true;
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i]
 
@@ -108,7 +110,11 @@ module.exports = function (md, options) {
         }
 
         if (matched) {
-          _content += line + '\n'
+          if(first) {
+            leadingWhiteSpace = line.match('^\\s*').toString().length;
+            first = false;
+          }
+          _content += line.substring(leadingWhiteSpace) + '\n'
         }
       }
     }
